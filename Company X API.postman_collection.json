@@ -1,0 +1,378 @@
+{
+	"info": {
+		"_postman_id": "16a43903-0307-4d83-a2dd-c90722d1c257",
+		"name": "Company X API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29629368"
+	},
+	"item": [
+		{
+			"name": "Create PRODUCT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"brandId\": \"COMPANY-X\",\r\n    \"startDate\": \"2024-10-10\",\r\n    \"endDate\": \"2024-10-12\",\r\n    \"priceList\": 1,\r\n    \"productId\": 1234,\r\n    \"priority\": 1,\r\n    \"price\": 1.99,\r\n    \"currency\": \"EUR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/show-all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"show-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET product by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Id is a non-negative integer\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.id).to.be.a('number').and.to.satisfy((id) => id >= 0, \"Id should be a non-negative integer\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Start date and end date are in valid date format\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.startDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\r",
+							"    pm.expect(responseData.endDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/id?id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"id"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE product by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/id?id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"id"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET products by DATE RANGE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item).to.have.property('id');\r",
+							"        pm.expect(item).to.have.property('brandId');\r",
+							"        pm.expect(item).to.have.property('startDate');\r",
+							"        pm.expect(item).to.have.property('endDate');\r",
+							"        pm.expect(item).to.have.property('priceList');\r",
+							"        pm.expect(item).to.have.property('productId');\r",
+							"        pm.expect(item).to.have.property('priority');\r",
+							"        pm.expect(item).to.have.property('price');\r",
+							"        pm.expect(item).to.have.property('currency');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"StartDate and endDate are in a valid date format\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    \r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item.startDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\r",
+							"        pm.expect(item.endDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/rate?startDate=2024-10-9&endDate=2024-10-11",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"rate"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2024-10-9"
+						},
+						{
+							"key": "endDate",
+							"value": "2024-10-11"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET products by PRODUCTID and PRICE RANGE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item).to.have.property('id');\r",
+							"        pm.expect(item).to.have.property('brandId');\r",
+							"        pm.expect(item).to.have.property('startDate');\r",
+							"        pm.expect(item).to.have.property('endDate');\r",
+							"        pm.expect(item).to.have.property('priceList');\r",
+							"        pm.expect(item).to.have.property('productId');\r",
+							"        pm.expect(item).to.have.property('priority');\r",
+							"        pm.expect(item).to.have.property('price');\r",
+							"        pm.expect(item).to.have.property('currency');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Start date and end date are in valid date format\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item.startDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\r",
+							"        pm.expect(item.endDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/price-chain?productId=1234&minPrice=1&maxPrice=2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"price-chain"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "1234"
+						},
+						{
+							"key": "minPrice",
+							"value": "1"
+						},
+						{
+							"key": "maxPrice",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET products by PRICE RATE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the correct Content-Type header\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the schema of the response body\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData).to.be.an('array');\r",
+							"  responseData.forEach(function(item) {\r",
+							"    pm.expect(item).to.be.an('object');\r",
+							"    pm.expect(item).to.have.property('id');\r",
+							"    pm.expect(item).to.have.property('brandId');\r",
+							"    pm.expect(item).to.have.property('startDate');\r",
+							"    pm.expect(item).to.have.property('endDate');\r",
+							"    pm.expect(item).to.have.property('priceList');\r",
+							"    pm.expect(item).to.have.property('productId');\r",
+							"    pm.expect(item).to.have.property('priority');\r",
+							"    pm.expect(item).to.have.property('price');\r",
+							"    pm.expect(item).to.have.property('currency');\r",
+							"  });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/price-rate?minPrice=1&maxPrice=2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"price-rate"
+					],
+					"query": [
+						{
+							"key": "minPrice",
+							"value": "1"
+						},
+						{
+							"key": "maxPrice",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
