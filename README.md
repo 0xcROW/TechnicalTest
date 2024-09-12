@@ -1,3 +1,7 @@
+The whole project was writen in IntelliJ Idea Ultimate IDE.
+
+OpenJDK 22.0.2.
+
 Simple API Rest made in Java SE 17 using Spring Boot 3.3.3 and Maven.
 
 The database used is H2, with JDBC and JPA - despite the H2 is a well-known in-memory database, in this project I'm using it with persistence to keep the objects inside the table.
@@ -7,4 +11,4 @@ The API documentation and the endpoint tests was made in Postman, there are a co
 
 Don't forget to change the JDBC url to jdbc:h2:file:~/companyxdb if it contains another address when accessing /h2-console.
 
-The address when started is http://localhost:8080.
+The address when started is http://localhost:9090.
