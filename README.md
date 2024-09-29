@@ -11,4 +11,4 @@ The API documentation and the endpoint tests was made in Postman, there are a co
 
 Don't forget to change the JDBC url to jdbc:h2:file:~/companyxdb if it contains another address when accessing /h2-console.
 
-The address when started is http://localhost8080.
+The address when started is http://localhost:8080.
